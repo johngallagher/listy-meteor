@@ -1,19 +1,50 @@
+
 if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "Welcome to ListyMeteor.";
+  Meteor.startup(function () {
+    Session.set("edited_element", "");
+  });
+
+  setEditedElement = function (elementName) {
+    return Session.set("edited_element", elementName);
   };
 
-  Template.hello.events({
-    'click input' : function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
+  editedElementIs = function (elementName) {
+    return Session.get("edited_element") == elementName;
+  };
+
+  toggleElement = function (elementName) {
+    if(editedElementIs(elementName)) {
+      setEditedElement("");
+    } else {
+      setEditedElement(elementName);
+    }
+  };
+
+  Handlebars.registerHelper('editedElementIs', function (elementName) {
+    return editedElementIs(elementName);
+  });
+
+  Template.adminbar.events({
+    'click a#editlist' : function () {
+      toggleElement("list");
+    },
+    'click a#editsidebar' : function () {
+      toggleElement("sidebar");
     }
   });
+
+  Template.list.editingList = function () {
+    return editedElementIs("list");
+  };
+
+  Template.listadmin.editedElementIs = function (elementName) {
+    return Session.get("edited_element") == elementName
+  };
+
 }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // code to run on server at startup
-  });
+// code to run on server at startup
+});
 }

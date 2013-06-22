@@ -43,16 +43,12 @@
   </div>
 </template>
 
-<template name="filter_bar">
+<template name="list_view">
   <div style="width: 100%; margin-bottom: 10px;">
     <div class="filter">
       <a href="javascript:;" id="filter-none">all</a> <a href="javascript:;" id="filter-watches">watches</a>
     </div>
   </div>
-</template>
-
-<template name="list_view">
-  {{> filter_bar}}
   <div id="listview">
     <ul class="product-list">
       <li class="simpleCart_shelfItem">
@@ -139,7 +135,6 @@
     </ul>
   </div>
 </template>
-
 
 <template name="listform">
   <div id="listform"> 
@@ -228,10 +223,13 @@
   <span class="simpleCart_shopPrefix" style="display: none;">sc27499_</span>
   <div class="span-17" id="left" style="min-height: 230px;">
     <h1 style="text-align:center;">Your list of things for sale:</h1>
-
-    {{> list_view}}
-
+    {{#if editedElementIs "list" }}
     {{> list_form}}
+    {{else}}
+    {{> list_view}}
+    {{/if}}
+
+
   </div>
 </template>
 
@@ -262,10 +260,13 @@
   <div class="span-7 last" style="padding:0; margin:0; height: 35px;">
   </div>
   <div class="span-6 last alpha60" style="padding: 20px; margin-top: 0px;">
+
+    {{#if editedElementIs "sidebar"}}
+      {{> sidebar_form}}
+    {{else}}
+      {{> sidebar_view }}
+    {{/if}}
     
-    {{> sidebar_view }}
-    
-    {{> sidebar_form}}
 
     {{> simple_cart}}
   </div>
