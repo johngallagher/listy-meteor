@@ -1,0 +1,195 @@
+<head>
+  <title>ListyMeteor</title>
+</head>
+
+<body>
+  {{> listadmin}}
+</body>
+
+<template name="listhome">
+  <div class="container" style="background-color: transparent;">
+    <hr class="space">
+    <ul class="navigation" style="width: 930px; margin: 0;padding: 10px;padding-bottom: 5px;border-top-width: 0px;padding-top: 5px;background-color: transparent;"> 
+      <li class="login" style="float:right; font-size: 1.2em;">
+        <a href="/users/sign_in">Login / Signup</a>
+      </li>
+    </ul>
+    <hr class="space">
+    {{> listform}}
+    <div class="span-6 last" style="width:240px; padding:0px 15px">
+      <p style="margin-top:60px; text-align: center;">
+        <img src="images/list240.gif" alt="list of things for sale"><br>
+      </p>
+      <div id="editdescription">
+        <span class="highlight">Type a list of things you want to sell into the box with each line like this:</span><br>
+        <p style="margin-top:15px;text-align: center;">
+          <span id="tagline" class="highlight"><b>←</b> Title &nbsp; $Price &nbsp; Description</span>
+        </p>
+        <p>
+          If you don't want to sell anything yet,<br>
+          <a href="http://listofthingsforsale.com/matthias">buy something from our list instead!</a><br>
+          <br>
+          <span style="font-size: 85%;">Coming Soon:<br>
+            1. +quantity for multiple item sales, ie +5<br>
+            2. #tags for categorising, ie #electronics
+          </span>
+        </p>
+      </div>
+    </div>
+    <hr class="space" />
+    <hr class="space" />
+  </div>
+</template>
+
+<template name="listform">
+  <div id="left" class="span-17">
+    <div id="listform"> 
+      <form accept-charset="UTF-8" action="/shops" class="new_shop" id="new_list" method="post">
+        <div style="margin:0;padding:0;display:inline">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+        </div>
+
+        <h1 style="margin-top:6px;text-align:center;">Type a list of things for sale:</h1>
+        <textarea cols="20" id="shop_description" name="shop[description]" rows="5" style="width: 650px; height: 250px; font-size: 0.9em;font-family: Courier;">For example:
+
+          iPhone 3GS $70
+          Fender Guitar $280
+          Pocket Watch $5 Excellent condition #watches
+        </textarea>
+
+
+        <div class="column span-5 prepend-6 append-5" style="padding:0 270px;">
+          <a href="javascript:;" id="listsubmit" type="submit" class="button positive" onClick="$('form#new_list').submit()">Now Click Here!
+            <img src="css/plugins/buttons/icons/arrow_right.png" alt="" />
+          </a>
+        </div>
+      </form>
+      <hr class="space" />
+      <hr class="space" />
+    </div>
+  </div>
+</template>
+
+
+<template name="listadmin">
+  <div class="container" style="background-color: transparent;">
+    <hr class="space">
+    <ul class="navigation" style="width: 930px; margin: 0;padding: 10px;padding-bottom: 5px;border-top-width: 0px;padding-top: 5px;background-color: transparent;"> 
+      <li class="login" style="float:right; font-size: 1.2em;">
+        <a href="/users/sign_in">Login / Signup</a>
+      </li>
+    </ul>
+    <hr class="space">
+
+    {{> adminbar}}
+
+    {{#if show}}
+      {{> edit_config}}
+      {{> edit_account}}
+    {{/if}}
+    
+  </template>
+
+  <template name="adminbar">
+    <div id="adminbar" class="box" style="font-size: 1.2em; background-color: #fff000; padding: 10px; margin-bottom:0; float: left; width: 930px;">
+      Edit your: <a id="editlist" onclick="javascript:;" name="editlist">List</a>, <a id="editsidebar" onclick="javascript:;" name="editsidebar">Sidebar</a>, <a id="editstyling" onclick="javascript:;" name="editstyling">Background</a>, <a id="editconfig" onclick="javascript:;" name="editconfig">Config</a>, <a id="editaccount" onclick="javascript:;" name="editaccount">Account</a>
+
+      <div style="float: right; text-align: right;">
+        Your list is offline.
+        <a href="/leqluirx/prepublish" data-remote="true" id="prepublish-action">Publish It</a>
+      </div>
+    </div>
+  </template>
+
+  <template name="edit_config">
+    <div class="column span-23 last alpha60" id="config" style="border-bottom:1px solid #aaa; padding:20px;">
+      <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-remote="true" id="shop_configure_cart" method="post">
+        <div style="margin:0;padding:0;display:inline">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input name="_method" type="hidden" value="put" />
+          <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+        </div>
+        <div class="columnn span-11">
+          <fieldset style="height: 150px;margin-top:5px;">
+            <legend style="text-align: center;font-weight:normal;">Payment</legend>
+            <input checked="checked" id="shop_payment_type_paypal" name="shop[payment_type]" type="radio" value="paypal" /> 
+            <label for="shop_payment_type_paypal" style="font-weight: normal;">Receive payments via Paypal: </label>
+            <input id="shop_paypal_email" name="shop[paypal_email]" placeholder="Paypal email address" size="25" type="text" /><br/>
+            <input id="shop_payment_type_email" name="shop[payment_type]" type="radio" value="email" /> 
+            <label for="shop_payment_type_email" style="font-weight: normal;">Just email me</label>
+          </fieldset>
+        </div>
+        <div class="columnn span-11 last">
+          <fieldset style="height: 150px;margin-top:5px;">
+            <legend style="text-align: center;font-weight:normal;">Fulfilling Orders</legend>
+            <input checked="checked" id="shop_delivery_method_post" name="shop[delivery_method]" type="radio" value="post" /> 
+            <label for="shop_delivery_method_post" style="font-weight: normal;">Prices include</label> 
+            <select style="margin-bottom: 0px;">
+              <option>
+                USA
+              </option>
+              <option>
+                UK
+              </option>
+              <option>
+                Worldwide
+              </option>
+            </select> postage<br>
+            <input id="shop_delivery_method_collection" name="shop[delivery_method]" type="radio" value="collection" />
+            <label for="shop_delivery_method_collection" style="font-weight: normal;">Collection / Other</label>
+            <textarea cols="40" id="shop_collection_description" name="shop[collection_description]" placeholder="Example: I&#x27;m at Sloans Market every Saturday." rows="5" style="height: 70px;"></textarea>
+          </fieldset>
+        </div>
+      </form>  
+      <div class="column span-6 prepend-9">
+        <a class="button positive" style=" text-align: center; margin-top: 0px" onClick="$('form#shop_configure_cart').submit()">
+          <img src="css/plugins/buttons/icons/tick.png" alt=""/>Save Configuration
+        </a>
+      </div>
+    </div>
+  </template>
+
+  <template name="edit_account">
+    <div class="column span-23 last alpha60" id="account" style="border-bottom:1px solid #aaa; padding:20px;">
+      <fieldset id="signupform" style="height: 150px;" class="columnn span-10">
+        <legend style="font-weight:normal;">Sign up now to save your List of Things for Sale</legend>
+        <form accept-charset="UTF-8" action="/users" class="user_new" data-remote="true" id="user_new" method="post">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="&#x2713;" />
+            <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+          </div>
+          <input class="text" id="user_email" name="user[email]" placeholder="Enter your email" size="30" style="width: 220px;" type="email" value="" /><br>
+          <input class="text" id="user_password" name="user[password]" placeholder="Enter your password" size="30" style="width: 220px;" type="password" /><br>
+          <input class="text" id="user_password_confirmation" name="user[password_confirmation]" placeholder="Confirm your password" size="30" style="width: 220px;" type="password" /><br>
+          <a class="button positive" onclick="$('#user_new').submit();"><img src="/css/plugins/buttons/icons/tick.png" alt=""> Sign Up</a>
+        </form>
+      </fieldset>
+
+      <form accept-charset="UTF-8" action="/users/confirmation" class="user_new" id="user_new" method="post">
+        <div style="margin:0;padding:0;display:inline">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+        </div>
+
+        <fieldset id="aftersignup" style="margin-top:5px;" class="columnn span-10">
+          <legend style="font-weight:normal;">Didn't get the verification email?</legend>
+          <input class="text" id="user_email" name="user[email]" placeholder="Email address" size="30" type="email" value="" /><br>
+          <a class="button" href="javascript:;" onClick="$('#user_new').submit()"><img src="/css/plugins/buttons/icons/email.png" alt=""> Resend Code</a>
+        </fieldset>
+      </form>
+      <fieldset id="Fieldset1" style="height: 100px;" class="columnn span-11 last">
+        <legend style="font-weight:normal;">Choose a url (web address) for your list</legend>
+        <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-validate="true" id="shop_url_edit" method="post" novalidate="novalidate">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="&#x2713;" />
+            <input name="_method" type="hidden" value="put" />
+            <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+          </div> listofthingsforsale.com/ <input class="text" data-validate="true" id="shop_url" name="shop[url]" size="30" style="width:200px;" type="text" value="leqluirx" /><br>
+          <a class="button positive" onClick="$('form#shop_url_edit').submit()"><img src="/css/plugins/buttons/icons/tick.png" alt="">Save</a><br>
+        </form>
+        <script>window['shop_url_edit'] = {"type":"ActionView::Helpers::FormBuilder","input_tag":"<div class=\"error\"><span id=\"input_tag\" /><br><label for=\"\" class=\"message\"></label></div>","label_tag":"<div class=\"field_with_errors\"><label id=\"label_tag\" /></div>","validators":{"shop[url]":{"uniqueness":{"message":"has already been taken","case_sensitive":false,"id":27496},"format":{"message":"only letters/numbers please","with":/^[A-Za-z\-_0-9]+$/},"length":{"messages":{"minimum":"is too short (minimum is 4 characters)","maximum":"is too long (maximum is 30 characters)"},"minimum":4,"maximum":30}}}};</script>
+      </fieldset>
+    </div>
+  </template>
+
