@@ -32,15 +32,6 @@ if (Meteor.isClient) {
       toggleElement("sidebar");
     }
   });
-
-  Template.list.editingList = function () {
-    return editedElementIs("list");
-  };
-
-  Template.listadmin.editedElementIs = function (elementName) {
-    return Session.get("edited_element") == elementName
-  };
-
 }
 
 if (Meteor.isServer) {
