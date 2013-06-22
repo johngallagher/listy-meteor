@@ -15,7 +15,9 @@
       </li>
     </ul>
     <hr class="space">
-    {{> listform}}
+    <div id="left" class="span-17">
+      {{> listform}}
+    </div>
     <div class="span-6 last" style="width:240px; padding:0px 15px">
       <p style="margin-top:60px; text-align: center;">
         <img src="images/list240.gif" alt="list of things for sale"><br>
@@ -41,155 +43,449 @@
   </div>
 </template>
 
-<template name="listform">
-  <div id="left" class="span-17">
-    <div id="listform"> 
-      <form accept-charset="UTF-8" action="/shops" class="new_shop" id="new_list" method="post">
-        <div style="margin:0;padding:0;display:inline">
-          <input name="utf8" type="hidden" value="&#x2713;" />
-          <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
-        </div>
-
-        <h1 style="margin-top:6px;text-align:center;">Type a list of things for sale:</h1>
-        <textarea cols="20" id="shop_description" name="shop[description]" rows="5" style="width: 650px; height: 250px; font-size: 0.9em;font-family: Courier;">For example:
-
-          iPhone 3GS $70
-          Fender Guitar $280
-          Pocket Watch $5 Excellent condition #watches
-        </textarea>
-
-
-        <div class="column span-5 prepend-6 append-5" style="padding:0 270px;">
-          <a href="javascript:;" id="listsubmit" type="submit" class="button positive" onClick="$('form#new_list').submit()">Now Click Here!
-            <img src="css/plugins/buttons/icons/arrow_right.png" alt="" />
-          </a>
-        </div>
-      </form>
-      <hr class="space" />
-      <hr class="space" />
+<template name="filter_bar">
+  <div style="width: 100%; margin-bottom: 10px;">
+    <div class="filter">
+      <a href="javascript:;" id="filter-none">all</a> <a href="javascript:;" id="filter-watches">watches</a>
     </div>
   </div>
 </template>
 
+<template name="list_view">
+  {{> filter_bar}}
+  <div id="listview">
+    <ul class="product-list">
+      <li class="simpleCart_shelfItem">
+        <div style="display:none;">
+          <span class="category_1"></span> 
+          <span class="category_2"></span> 
+          <span class="category_3"></span>
+          <span class="category_4"></span> 
+          <span class="category_5"></span> 
+          <span class="category_6"></span>
+        </div>
+        <span class="item_shopid" style="display:none;">27499</span> 
+        <span class="item_itemid" style="display:none;">94625</span>
+
+        <form accept-charset="UTF-8" action="/items/94625" class="edit_item" data-remote="true" enctype="multipart/form-data" id="item_edit_94625" method="post">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="✓">
+            <input name="_method" type="hidden" value="put">
+            <input name="authenticity_token" type="hidden" value="3oGlFyEekWCYPOgePeZg9Rx47xRJwLr2MCRK3boIe0I=">
+          </div>
+
+          <div id="upload-input" style="position: relative; display: block; height: 135px; width: 180px; margin: 0 0 14px 0; overflow: hidden;"><input id="item_photo_1" maxlength="99999" name="item[photo_1]" style="display: block; position: absolute; text-align: right; top: 0pt; right: 0pt; cursor: pointer; font-size: 135px; opacity:0; z-index: 2;filter: alpha(opacity = 0);" type="file"> <img alt="Browse" height="135px" src="/images/click-to-upload2.jpg" style="width:180px;height:135px;" width="180px"></div>
+        </form>
+        <a class="item_name itemtitle truncated" href="javascript:;" id="item1" name="item1">iPhone 3GS</a> 
+        <a class="item_name itemtitle full" href="javascript:;" id="item1" name="item1" style="display: none; height: auto;">iPhone 3GS</a>
+        <div class="item_description" id="item-desc1" style="display: none;">
+          <br>
+          1 Available
+          <hr class="space" style="margin-bottom:10px;">
+        </div><span class="item_add"><a class="item_addtocart button" href="javascript:;" style="margin: 0;">Add to Cart</a></span>
+
+        <div class="added-to-cart" style="display:none;">
+          Sold Out
+        </div><span class="item_price price">$70.00</span>
+      </li>
+
+      <li class="simpleCart_shelfItem">
+        <div style="display:none;">
+          <span class="category_1"></span> <span class="category_2"></span> <span class="category_3"></span> <span class="category_4"></span> <span class="category_5"></span> <span class="category_6"></span>
+        </div><span class="item_shopid" style="display:none;">27499</span> <span class="item_itemid" style="display:none;">94626</span>
+
+        <form accept-charset="UTF-8" action="/items/94626" class="edit_item" data-remote="true" enctype="multipart/form-data" id="item_edit_94626" method="post">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="3oGlFyEekWCYPOgePeZg9Rx47xRJwLr2MCRK3boIe0I=">
+          </div>
+
+          <div id="upload-input" style="position: relative; display: block; height: 135px; width: 180px; margin: 0 0 14px 0; overflow: hidden;"><input id="item_photo_1" maxlength="99999" name="item[photo_1]" style="display: block; position: absolute; text-align: right; top: 0pt; right: 0pt; cursor: pointer; font-size: 135px; opacity:0; z-index: 2;filter: alpha(opacity = 0);" type="file"> <img alt="Browse" height="135px" src="/images/click-to-upload2.jpg" style="width:180px;height:135px;" width="180px"></div>
+        </form><a class="item_name itemtitle truncated" href="javascript:;" id="item2" name="item2">Fender Guitar</a> <a class="item_name itemtitle full" href="javascript:;" id="item2" name="item2" style="display: none; height: auto;">Fender Guitar</a>
+
+        <div class="item_description" id="item-desc2" style="display: none;">
+          <br>
+          1 Available
+          <hr class="space" style="margin-bottom:10px;">
+        </div><span class="item_add"><a class="item_addtocart button" href="javascript:;" style="margin: 0;">Add to Cart</a></span>
+
+        <div class="added-to-cart" style="display:none;">
+          Sold Out
+        </div><span class="item_price price">$280.00</span>
+      </li>
+
+      <li class="simpleCart_shelfItem">
+        <div style="display:none;">
+          <span class="category_1">watches</span> <span class="category_2"></span> <span class="category_3"></span> <span class="category_4"></span> <span class="category_5"></span> <span class="category_6"></span>
+        </div><span class="item_shopid" style="display:none;">27499</span> <span class="item_itemid" style="display:none;">94627</span>
+
+        <form accept-charset="UTF-8" action="/items/94627" class="edit_item" data-remote="true" enctype="multipart/form-data" id="item_edit_94627" method="post">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="✓"><input name="_method" type="hidden" value="put"><input name="authenticity_token" type="hidden" value="3oGlFyEekWCYPOgePeZg9Rx47xRJwLr2MCRK3boIe0I=">
+          </div>
+
+          <div id="upload-input" style="position: relative; display: block; height: 135px; width: 180px; margin: 0 0 14px 0; overflow: hidden;"><input id="item_photo_1" maxlength="99999" name="item[photo_1]" style="display: block; position: absolute; text-align: right; top: 0pt; right: 0pt; cursor: pointer; font-size: 135px; opacity:0; z-index: 2;filter: alpha(opacity = 0);" type="file"> <img alt="Browse" height="135px" src="/images/click-to-upload2.jpg" style="width:180px;height:135px;" width="180px"></div>
+        </form><a class="item_name itemtitle truncated" href="javascript:;" id="item3" name="item3">Pocket Watch</a> <a class="item_name itemtitle full" href="javascript:;" id="item3" name="item3" style="display: none; height: auto;">Pocket Watch</a>
+
+        <div class="item_description" id="item-desc3" style="display: none;">
+          Excellent condition<br>
+          1 Available
+          <hr class="space" style="margin-bottom:10px;">
+        </div><span class="item_add"><a class="item_addtocart button" href="javascript:;" style="margin: 0;">Add to Cart</a></span>
+
+        <div class="added-to-cart" style="display:none;">
+          Sold Out
+        </div><span class="item_price price">$5.00</span>
+      </li>
+    </ul>
+  </div>
+</template>
+
+
+<template name="listform">
+  <div id="listform"> 
+    <form accept-charset="UTF-8" action="/shops" class="new_shop" id="new_list" method="post">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+        <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+      </div>
+
+      <h1 style="margin-top:6px;text-align:center;">Type a list of things for sale:</h1>
+      <textarea cols="20" id="shop_description" name="shop[description]" rows="5" style="width: 650px; height: 250px; font-size: 0.9em;font-family: Courier;">For example:
+
+        iPhone 3GS $70
+        Fender Guitar $280
+        Pocket Watch $5 Excellent condition #watches
+      </textarea>
+
+
+      <div class="column span-5 prepend-6 append-5" style="padding:0 270px;">
+        <a href="javascript:;" id="listsubmit" type="submit" class="button positive" onClick="$('form#new_list').submit()">Now Click Here!
+          <img src="css/plugins/buttons/icons/arrow_right.png" alt="" />
+        </a>
+      </div>
+    </form>
+    <hr class="space" />
+    <hr class="space" />
+  </div>
+</template>
+
+
+<template name="navigation">
+  <ul class="navigation" style="width: 930px; margin: 0;padding: 10px;padding-bottom: 5px;border-top-width: 0px;padding-top: 5px;background-color: transparent;"> 
+    <li class="login" style="float:right; font-size: 1.2em;">
+      <a href="/users/sign_in">Login / Signup</a>
+    </li>
+  </ul>
+</template>
 
 <template name="listadmin">
   <div class="container" style="background-color: transparent;">
     <hr class="space">
-    <ul class="navigation" style="width: 930px; margin: 0;padding: 10px;padding-bottom: 5px;border-top-width: 0px;padding-top: 5px;background-color: transparent;"> 
-      <li class="login" style="float:right; font-size: 1.2em;">
-        <a href="/users/sign_in">Login / Signup</a>
-      </li>
-    </ul>
-    <hr class="space">
+    {{> navigation}}
 
     {{> adminbar}}
 
     {{#if show}}
-      {{> edit_config}}
-      {{> edit_account}}
+    {{> edit_config}}
+    {{> edit_account}}
+    {{> edit_background}}
     {{/if}}
-    
-  </template>
 
-  <template name="adminbar">
-    <div id="adminbar" class="box" style="font-size: 1.2em; background-color: #fff000; padding: 10px; margin-bottom:0; float: left; width: 930px;">
-      Edit your: <a id="editlist" onclick="javascript:;" name="editlist">List</a>, <a id="editsidebar" onclick="javascript:;" name="editsidebar">Sidebar</a>, <a id="editstyling" onclick="javascript:;" name="editstyling">Background</a>, <a id="editconfig" onclick="javascript:;" name="editconfig">Config</a>, <a id="editaccount" onclick="javascript:;" name="editaccount">Account</a>
+    {{> list}}
+    {{> sidebar}}
+  </div>
+</template>
 
-      <div style="float: right; text-align: right;">
-        Your list is offline.
-        <a href="/leqluirx/prepublish" data-remote="true" id="prepublish-action">Publish It</a>
-      </div>
+<template name="simple_cart">
+  <div id="cart">
+    <p style="margin: 10px 0 5px;">You have <span class="simpleCart_quantity"></span>&nbsp;items in your Cart:</p>
+
+    <div class="simpleCart_items"></div>
+    <hr style="margin-bottom: 10px;">
+    <!--use a class of simpleCart_empty to empty the cart and simpleCart_checkout to checkout -->
+
+    <p>Total <span class="simpleCart_total"></span><br></p>
+    <a class="simpleCart_empty" href="javascript:;">Empty Cart</a> &nbsp;|&nbsp; <a class="simpleCart_checkout" href="javascript:;">Checkout</a></p>
+  </div>
+</template>
+
+<template name="adminbar">
+  <div id="adminbar" class="box" style="font-size: 1.2em; background-color: #fff000; padding: 10px; margin-bottom:0; float: left; width: 930px;">
+    Edit your: <a id="editlist" onclick="javascript:;" name="editlist">List</a>, <a id="editsidebar" onclick="javascript:;" name="editsidebar">Sidebar</a>, <a id="editstyling" onclick="javascript:;" name="editstyling">Background</a>, <a id="editconfig" onclick="javascript:;" name="editconfig">Config</a>, <a id="editaccount" onclick="javascript:;" name="editaccount">Account</a>
+
+    <div style="float: right; text-align: right;">
+      Your list is offline.
+      <a href="/leqluirx/prepublish" data-remote="true" id="prepublish-action">Publish It</a>
     </div>
-  </template>
+  </div>
+</template>
 
-  <template name="edit_config">
-    <div class="column span-23 last alpha60" id="config" style="border-bottom:1px solid #aaa; padding:20px;">
-      <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-remote="true" id="shop_configure_cart" method="post">
+<!-- Templates for editing -->
+
+<template name="list">
+  <hr class="space">
+  <hr class="space">
+  <span class="simpleCart_shopPrefix" style="display: none;">sc27499_</span>
+  <div class="span-17" id="left" style="min-height: 230px;">
+    <h1 style="text-align:center;">Your list of things for sale:</h1>
+
+    {{> list_view}}
+
+    {{> list_form}}
+  </div>
+</template>
+
+<template name="list_form">
+  <div id="listform">
+    <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" id="shop_edit_items" method="post">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+        <input name="_method" type="hidden" value="put" />
+        <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+      </div>
+      <textarea cols="20" id="list1" name="shop[description]" rows="5" style="width: 640px; height: 250px; margin-top:0; font-size: 0.9em;font-family: Courier;">For example:
+
+        iPhone 3GS $70
+        Fender Guitar $280
+        Pocket Watch $5 Excellent condition #watches
+      </textarea>
+      <div class="column span-3 prepend-7 append-8">
+        <a href="javascript:;" id="listsubmit" type="submit" class="button positive" name="listsubmit" onClick="$('form#shop_edit_items').submit()">Save <img src="/css/plugins/buttons/icons/arrow_right.png" alt=""></a>
+      </div>
+    </form>  
+    <hr class="space">
+    <hr class="space">
+  </div>
+</template>
+
+<template name="sidebar">
+  <div class="span-7 last" style="padding:0; margin:0; height: 35px;">
+  </div>
+  <div class="span-6 last alpha60" style="padding: 20px; margin-top: 0px;">
+    
+    {{> sidebar_view }}
+    
+    {{> sidebar_form}}
+
+    {{> simple_cart}}
+  </div>
+</template>
+
+<template name="sidebar_view">
+  <div id="sidebarview">  
+    <div class="span-6 last" style="margin:0;padding:0;">
+      <p style="text-align: center;margin-bottom:5px;" class="sidey">
+        <a href="http://listofthingsforsale.com"><img src="images/listy.gif" alt="list of things for sale" /></a><br />
+      </p>
+
+      <div id="aboutmeview">
+        <h1 class="alt" style="float: left; padding:0;margin: 3px 5px 0 0; font-size: 2.7em">W</h1>
+        <span>rite whatever you want here. You could use it to tell people who you are and what you are selling. If you have a retail presence or a market stall, you could put up the details up here.</span>
+      </div>
+      <hr style="margin-top:5px;">
+    </div>
+  </div>
+</template>
+
+<template name="sidebar_form">
+  <div id="sidebarform">  
+    <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-remote="true" enctype="multipart/form-data" id="shop_edit_about_me" method="post">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+        <input name="_method" type="hidden" value="put" />
+        <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+      </div>
+      <span>Profile Picture: </span>
+      <input id="shop_profile_photo" name="shop[profile_photo]" style="margin-bottom: 15px; width: 130px;" type="file" />
+
+      <div class="span-6 last" style="margin:0;padding:0;">
+        <p style="text-align: center;margin-bottom:5px;" class="sidey">
+          <a href="http://listofthingsforsale.com"><img src="images/listy.gif" alt="list of things for sale" /></a><br />
+        </p>
+
+        <textarea cols="20" id="shop_about_me" name="shop[about_me]" rows="5" style="width: 200px; height: 140px;">Write whatever you want here. You could use it to tell people who you are and what you are selling. If you have a retail presence or a market stall, you could put up the details up here.</textarea><br />
+        <input data-disable-with="Saving..." id="shop_submit" name="commit" type="submit" value="Save" />
+
+        <hr style="margin-top:5px;">
+      </div>
+    </form>  
+  </div>
+</template>
+
+<template name="edit_background">
+  <div class="column span-24 alpha60 last" id="styling" style="border-bottom:1px solid #ccc;">
+    <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-remote="true" id="shop-background-edit-form" method="post">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+        <input name="_method" type="hidden" value="put" />
+        <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+      </div>
+      <ul id="backgrounds">
+        <li onclick="updateBackgroundForm()" class="background-select currentbg">
+          <input id="shop_background_id_0" name="shop[background_id]" style="display:none;" type="radio" value="0" />
+          <label for="shop_background_id_0">
+            <img alt="None" src="/images/none.jpg?1360614350" />
+          </label>    
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_25" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="25" />
+          <label for="shop_background_id_25">
+            <img alt="Felt" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/25/felt.jpg?1319554973" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_26" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="26" />
+          <label for="shop_background_id_26">
+            <img alt="Grid" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/26/grid.jpg?1319554975" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_27" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="27" />
+          <label for="shop_background_id_27">
+            <img alt="Washi" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/27/washi.jpg?1319554977" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_28" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="28" />
+          <label for="shop_background_id_28">
+            <img alt="Subtle_orange" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/28/subtle_orange.jpg?1319554978" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_30" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="30" />
+          <label for="shop_background_id_30">
+            <img alt="Bright_sq" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/30/bright_sq.jpg?1319554982" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_31" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="31" />
+          <label for="shop_background_id_31">
+            <img alt="Soft_wallpaper" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/31/soft_wallpaper.jpg?1319555069" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_32" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="32" />
+          <label for="shop_background_id_32">
+            <img alt="Card" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/32/card.jpg?1319555072" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_33" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="33" />
+          <label for="shop_background_id_33">
+            <img alt="Gold_scale" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/33/gold_scale.jpg?1319555076" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_34" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="34" />
+          <label for="shop_background_id_34">
+            <img alt="Grunge" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/34/grunge.jpg?1319555080" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_35" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="35" />
+          <label for="shop_background_id_35">
+            <img alt="Elast" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/35/elast.jpg?1319555082" />
+          </label>        
+        </li>
+        <li class="background-select">
+          <input id="shop_background_id_29" name="shop[background_id]" onchange="updateBackgroundForm()" style="display:none;" type="radio" value="29" />
+          <label for="shop_background_id_29">
+            <img alt="Vich" src="http://s3.amazonaws.com/synapticmishap-list-pro/profile/29/vich.jpg?1319555140" />
+          </label>        
+        </li>
+      </ul>
+    </form> 
+  </div>
+</template>
+
+<template name="edit_config">
+  <div class="column span-23 last alpha60" id="config" style="border-bottom:1px solid #aaa; padding:20px;">
+    <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-remote="true" id="shop_configure_cart" method="post">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+        <input name="_method" type="hidden" value="put" />
+        <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+      </div>
+      <div class="columnn span-11">
+        <fieldset style="height: 150px;margin-top:5px;">
+          <legend style="text-align: center;font-weight:normal;">Payment</legend>
+          <input checked="checked" id="shop_payment_type_paypal" name="shop[payment_type]" type="radio" value="paypal" /> 
+          <label for="shop_payment_type_paypal" style="font-weight: normal;">Receive payments via Paypal: </label>
+          <input id="shop_paypal_email" name="shop[paypal_email]" placeholder="Paypal email address" size="25" type="text" /><br/>
+          <input id="shop_payment_type_email" name="shop[payment_type]" type="radio" value="email" /> 
+          <label for="shop_payment_type_email" style="font-weight: normal;">Just email me</label>
+        </fieldset>
+      </div>
+      <div class="columnn span-11 last">
+        <fieldset style="height: 150px;margin-top:5px;">
+          <legend style="text-align: center;font-weight:normal;">Fulfilling Orders</legend>
+          <input checked="checked" id="shop_delivery_method_post" name="shop[delivery_method]" type="radio" value="post" /> 
+          <label for="shop_delivery_method_post" style="font-weight: normal;">Prices include</label> 
+          <select style="margin-bottom: 0px;">
+            <option>
+              USA
+            </option>
+            <option>
+              UK
+            </option>
+            <option>
+              Worldwide
+            </option>
+          </select> postage<br>
+          <input id="shop_delivery_method_collection" name="shop[delivery_method]" type="radio" value="collection" />
+          <label for="shop_delivery_method_collection" style="font-weight: normal;">Collection / Other</label>
+          <textarea cols="40" id="shop_collection_description" name="shop[collection_description]" placeholder="Example: I&#x27;m at Sloans Market every Saturday." rows="5" style="height: 70px;"></textarea>
+        </fieldset>
+      </div>
+    </form>  
+    <div class="column span-6 prepend-9">
+      <a class="button positive" style=" text-align: center; margin-top: 0px" onClick="$('form#shop_configure_cart').submit()">
+        <img src="css/plugins/buttons/icons/tick.png" alt=""/>Save Configuration
+      </a>
+    </div>
+  </div>
+</template>
+
+<template name="edit_account">
+  <div class="column span-23 last alpha60" id="account" style="border-bottom:1px solid #aaa; padding:20px;">
+    <fieldset id="signupform" style="height: 150px;" class="columnn span-10">
+      <legend style="font-weight:normal;">Sign up now to save your List of Things for Sale</legend>
+      <form accept-charset="UTF-8" action="/users" class="user_new" data-remote="true" id="user_new" method="post">
+        <div style="margin:0;padding:0;display:inline">
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+        </div>
+        <input class="text" id="user_email" name="user[email]" placeholder="Enter your email" size="30" style="width: 220px;" type="email" value="" /><br>
+        <input class="text" id="user_password" name="user[password]" placeholder="Enter your password" size="30" style="width: 220px;" type="password" /><br>
+        <input class="text" id="user_password_confirmation" name="user[password_confirmation]" placeholder="Confirm your password" size="30" style="width: 220px;" type="password" /><br>
+        <a class="button positive" onclick="$('#user_new').submit();"><img src="/css/plugins/buttons/icons/tick.png" alt=""> Sign Up</a>
+      </form>
+    </fieldset>
+
+    <form accept-charset="UTF-8" action="/users/confirmation" class="user_new" id="user_new" method="post">
+      <div style="margin:0;padding:0;display:inline">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+        <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
+      </div>
+
+      <fieldset id="aftersignup" style="margin-top:5px;" class="columnn span-10">
+        <legend style="font-weight:normal;">Didn't get the verification email?</legend>
+        <input class="text" id="user_email" name="user[email]" placeholder="Email address" size="30" type="email" value="" /><br>
+        <a class="button" href="javascript:;" onClick="$('#user_new').submit()"><img src="/css/plugins/buttons/icons/email.png" alt=""> Resend Code</a>
+      </fieldset>
+    </form>
+    <fieldset id="Fieldset1" style="height: 100px;" class="columnn span-11 last">
+      <legend style="font-weight:normal;">Choose a url (web address) for your list</legend>
+      <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-validate="true" id="shop_url_edit" method="post" novalidate="novalidate">
         <div style="margin:0;padding:0;display:inline">
           <input name="utf8" type="hidden" value="&#x2713;" />
           <input name="_method" type="hidden" value="put" />
           <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
-        </div>
-        <div class="columnn span-11">
-          <fieldset style="height: 150px;margin-top:5px;">
-            <legend style="text-align: center;font-weight:normal;">Payment</legend>
-            <input checked="checked" id="shop_payment_type_paypal" name="shop[payment_type]" type="radio" value="paypal" /> 
-            <label for="shop_payment_type_paypal" style="font-weight: normal;">Receive payments via Paypal: </label>
-            <input id="shop_paypal_email" name="shop[paypal_email]" placeholder="Paypal email address" size="25" type="text" /><br/>
-            <input id="shop_payment_type_email" name="shop[payment_type]" type="radio" value="email" /> 
-            <label for="shop_payment_type_email" style="font-weight: normal;">Just email me</label>
-          </fieldset>
-        </div>
-        <div class="columnn span-11 last">
-          <fieldset style="height: 150px;margin-top:5px;">
-            <legend style="text-align: center;font-weight:normal;">Fulfilling Orders</legend>
-            <input checked="checked" id="shop_delivery_method_post" name="shop[delivery_method]" type="radio" value="post" /> 
-            <label for="shop_delivery_method_post" style="font-weight: normal;">Prices include</label> 
-            <select style="margin-bottom: 0px;">
-              <option>
-                USA
-              </option>
-              <option>
-                UK
-              </option>
-              <option>
-                Worldwide
-              </option>
-            </select> postage<br>
-            <input id="shop_delivery_method_collection" name="shop[delivery_method]" type="radio" value="collection" />
-            <label for="shop_delivery_method_collection" style="font-weight: normal;">Collection / Other</label>
-            <textarea cols="40" id="shop_collection_description" name="shop[collection_description]" placeholder="Example: I&#x27;m at Sloans Market every Saturday." rows="5" style="height: 70px;"></textarea>
-          </fieldset>
-        </div>
-      </form>  
-      <div class="column span-6 prepend-9">
-        <a class="button positive" style=" text-align: center; margin-top: 0px" onClick="$('form#shop_configure_cart').submit()">
-          <img src="css/plugins/buttons/icons/tick.png" alt=""/>Save Configuration
-        </a>
-      </div>
-    </div>
-  </template>
-
-  <template name="edit_account">
-    <div class="column span-23 last alpha60" id="account" style="border-bottom:1px solid #aaa; padding:20px;">
-      <fieldset id="signupform" style="height: 150px;" class="columnn span-10">
-        <legend style="font-weight:normal;">Sign up now to save your List of Things for Sale</legend>
-        <form accept-charset="UTF-8" action="/users" class="user_new" data-remote="true" id="user_new" method="post">
-          <div style="margin:0;padding:0;display:inline">
-            <input name="utf8" type="hidden" value="&#x2713;" />
-            <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
-          </div>
-          <input class="text" id="user_email" name="user[email]" placeholder="Enter your email" size="30" style="width: 220px;" type="email" value="" /><br>
-          <input class="text" id="user_password" name="user[password]" placeholder="Enter your password" size="30" style="width: 220px;" type="password" /><br>
-          <input class="text" id="user_password_confirmation" name="user[password_confirmation]" placeholder="Confirm your password" size="30" style="width: 220px;" type="password" /><br>
-          <a class="button positive" onclick="$('#user_new').submit();"><img src="/css/plugins/buttons/icons/tick.png" alt=""> Sign Up</a>
-        </form>
-      </fieldset>
-
-      <form accept-charset="UTF-8" action="/users/confirmation" class="user_new" id="user_new" method="post">
-        <div style="margin:0;padding:0;display:inline">
-          <input name="utf8" type="hidden" value="&#x2713;" />
-          <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
-        </div>
-
-        <fieldset id="aftersignup" style="margin-top:5px;" class="columnn span-10">
-          <legend style="font-weight:normal;">Didn't get the verification email?</legend>
-          <input class="text" id="user_email" name="user[email]" placeholder="Email address" size="30" type="email" value="" /><br>
-          <a class="button" href="javascript:;" onClick="$('#user_new').submit()"><img src="/css/plugins/buttons/icons/email.png" alt=""> Resend Code</a>
-        </fieldset>
+        </div> listofthingsforsale.com/ <input class="text" data-validate="true" id="shop_url" name="shop[url]" size="30" style="width:200px;" type="text" value="leqluirx" /><br>
+        <a class="button positive" onClick="$('form#shop_url_edit').submit()"><img src="/css/plugins/buttons/icons/tick.png" alt="">Save</a><br>
       </form>
-      <fieldset id="Fieldset1" style="height: 100px;" class="columnn span-11 last">
-        <legend style="font-weight:normal;">Choose a url (web address) for your list</legend>
-        <form accept-charset="UTF-8" action="/shops/leqluirx" class="edit_shop" data-validate="true" id="shop_url_edit" method="post" novalidate="novalidate">
-          <div style="margin:0;padding:0;display:inline">
-            <input name="utf8" type="hidden" value="&#x2713;" />
-            <input name="_method" type="hidden" value="put" />
-            <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
-          </div> listofthingsforsale.com/ <input class="text" data-validate="true" id="shop_url" name="shop[url]" size="30" style="width:200px;" type="text" value="leqluirx" /><br>
-          <a class="button positive" onClick="$('form#shop_url_edit').submit()"><img src="/css/plugins/buttons/icons/tick.png" alt="">Save</a><br>
-        </form>
-        <script>window['shop_url_edit'] = {"type":"ActionView::Helpers::FormBuilder","input_tag":"<div class=\"error\"><span id=\"input_tag\" /><br><label for=\"\" class=\"message\"></label></div>","label_tag":"<div class=\"field_with_errors\"><label id=\"label_tag\" /></div>","validators":{"shop[url]":{"uniqueness":{"message":"has already been taken","case_sensitive":false,"id":27496},"format":{"message":"only letters/numbers please","with":/^[A-Za-z\-_0-9]+$/},"length":{"messages":{"minimum":"is too short (minimum is 4 characters)","maximum":"is too long (maximum is 30 characters)"},"minimum":4,"maximum":30}}}};</script>
-      </fieldset>
-    </div>
-  </template>
+      <script>window['shop_url_edit'] = {"type":"ActionView::Helpers::FormBuilder","input_tag":"<div class=\"error\"><span id=\"input_tag\" /><br><label for=\"\" class=\"message\"></label></div>","label_tag":"<div class=\"field_with_errors\"><label id=\"label_tag\" /></div>","validators":{"shop[url]":{"uniqueness":{"message":"has already been taken","case_sensitive":false,"id":27496},"format":{"message":"only letters/numbers please","with":/^[A-Za-z\-_0-9]+$/},"length":{"messages":{"minimum":"is too short (minimum is 4 characters)","maximum":"is too long (maximum is 30 characters)"},"minimum":4,"maximum":30}}}};</script>
+    </fieldset>
+  </div>
+</template>
 
