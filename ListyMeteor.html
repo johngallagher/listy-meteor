@@ -51,7 +51,13 @@
   </div>
   <div id="listview">
     <ul class="product-list">
-      <li class="simpleCart_shelfItem">
+      {{#each products}}
+        {{> product}}
+      {{/each}}
+
+
+
+<!--       <li class="simpleCart_shelfItem">
         <div style="display:none;">
           <span class="category_1"></span> 
           <span class="category_2"></span> 
@@ -131,9 +137,47 @@
         <div class="added-to-cart" style="display:none;">
           Sold Out
         </div><span class="item_price price">$5.00</span>
-      </li>
+      </li> -->
     </ul>
   </div>
+</template>
+
+
+<template name="product">
+      <li class="simpleCart_shelfItem">
+        <div style="display:none;">
+          <span class="category_1"></span> 
+          <span class="category_2"></span> 
+          <span class="category_3"></span>
+          <span class="category_4"></span> 
+          <span class="category_5"></span> 
+          <span class="category_6"></span>
+        </div>
+        <span class="item_shopid" style="display:none;">27499</span> 
+        <span class="item_itemid" style="display:none;">94625</span>
+
+        <form accept-charset="UTF-8" action="/items/94625" class="edit_item" data-remote="true" enctype="multipart/form-data" id="item_edit_94625" method="post">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="✓">
+            <input name="_method" type="hidden" value="put">
+            <input name="authenticity_token" type="hidden" value="3oGlFyEekWCYPOgePeZg9Rx47xRJwLr2MCRK3boIe0I=">
+          </div>
+
+          <div id="upload-input" style="position: relative; display: block; height: 135px; width: 180px; margin: 0 0 14px 0; overflow: hidden;"><input id="item_photo_1" maxlength="99999" name="item[photo_1]" style="display: block; position: absolute; text-align: right; top: 0pt; right: 0pt; cursor: pointer; font-size: 135px; opacity:0; z-index: 2;filter: alpha(opacity = 0);" type="file"> <img alt="Browse" height="135px" src="/images/click-to-upload2.jpg" style="width:180px;height:135px;" width="180px"></div>
+        </form>
+        <a class="item_name itemtitle truncated" href="javascript:;" id="item1" name="item1">{{name}}</a> 
+        <a class="item_name itemtitle full" href="javascript:;" id="item1" name="item1" style="display: none; height: auto;">">{{name}}</a>
+        <div class="item_description" id="item-desc1" style="display: none;">
+          <br>
+          {{quantity}} Available
+          <hr class="space" style="margin-bottom:10px;">
+        </div><span class="item_add"><a class="item_addtocart button" href="javascript:;" style="margin: 0;">Add to Cart</a></span>
+
+        <div class="added-to-cart" style="display:none;">
+          Sold Out
+        </div><span class="item_price price">{{price}}</span>
+      </li>
+  
 </template>
 
 <template name="listform">
@@ -154,7 +198,7 @@
 
 
       <div class="column span-5 prepend-6 append-5" style="padding:0 270px;">
-        <a href="javascript:;" id="listsubmit" type="submit" class="button positive" onClick="$('form#new_list').submit()">Now Click Here!
+        <a href="javascript:;" id="listsubmit" type="submit" class="button positive">Now Click Here!
           <img src="css/plugins/buttons/icons/arrow_right.png" alt="" />
         </a>
       </div>
@@ -241,12 +285,7 @@
         <input name="_method" type="hidden" value="put" />
         <input name="authenticity_token" type="hidden" value="bcs/rpAJoCHlK7yTGUNotO4tlS9RuKgzSKzRWWXEKNU=" />
       </div>
-      <textarea cols="20" id="list1" name="shop[description]" rows="5" style="width: 640px; height: 250px; margin-top:0; font-size: 0.9em;font-family: Courier;">For example:
-
-        iPhone 3GS $70
-        Fender Guitar $280
-        Pocket Watch $5 Excellent condition #watches
-      </textarea>
+      <textarea cols="20" id="list1" name="shop[description]" rows="5" style="width: 640px; height: 250px; margin-top:0; font-size: 0.9em;font-family: Courier;">{{listDescription}}</textarea>
       <div class="column span-3 prepend-7 append-8">
         <a href="javascript:;" id="listsubmit" type="submit" class="button positive" name="listsubmit" onClick="$('form#shop_edit_items').submit()">Save <img src="/css/plugins/buttons/icons/arrow_right.png" alt=""></a>
       </div>
