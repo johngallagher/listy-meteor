@@ -3,16 +3,20 @@ Lists = new Meteor.Collection("lists");
 
 if (Meteor.isClient) {
   Meteor.startup(function () {
-    var my_list_id = Lists.insert({description: "Default list", shop: 33});
-    Session.set("my_list", my_list_id);
-    Session.set("my_shop_id", 33);
+    var my_list_id = Lists.insert({description: "Default list"});
+    Session.set("my_list", my_list_id);      
+    
+    // var observed = Lists.find({_id: my_list_id}).observe({
+    //   changed: function (newDocument, oldDocument) {
+    //     Products.insert({list: newDocument._id, name: newDocument.description});
+    //   }
+    // });
+
     Session.set("edited_element", "");
 
-
-    // if (Products.find({shop: 33}).count() == 0) {
-    //   Products.insert({shop: 33, name: "Fender", price: 33.42, quantity: 1});
-    // }
   });
+
+
 
   setEditedElement = function (elementName) {
     return Session.set("edited_element", elementName);
@@ -22,19 +26,18 @@ if (Meteor.isClient) {
     return Session.get("edited_element") == elementName;
   };
 
-  function makeid(){
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    for( var i=0; i < 5; i++ )
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
-  };
 
   toggleElement = function (elementName) {
     if(editedElementIs(elementName)) {
-      Lists.update(Session.get("my_list"), {description: $('textarea').val(), shop: 33});      
+      Meteor.call('updateList', Session.get("my_list"), $('textarea').val());
+      // Products.find({list: Session.get("my_list")}).forEach(function (product) {
+      //   Products.remove(product._id);
+      // }); 
+      // Products.insert({list: Session.get("my_list"), name: $('textarea').val()});
+
+      // Lists.update(Session.get("my_list"), {description: $('textarea').val()});
+
       setEditedElement("");
     } else {
       setEditedElement(elementName);
@@ -44,12 +47,11 @@ if (Meteor.isClient) {
   Handlebars.registerHelper('editedElementIs', editedElementIs);
 
   Handlebars.registerHelper('products', function() {
-    return Products.find({shop: 33});
+    return Products.find({list: Session.get("my_list")});
   });
 
   Template.list_form.listDescription = function () {
     return Lists.findOne({_id: Session.get("my_list")}).description;
-    
   };
 
   Template.adminbar.events({
@@ -69,12 +71,14 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    Lists.find({shop: 33}).observe({
-      changed: function (newDocument, oldDocument) {
-        Products.remove({});
-        Products.insert({shop: 33, name: newDocument.description});
-        // console.log("List updated! Description is: " + newDocument.description);
-      }
-    });
+  });
+
+  Meteor.methods({
+    updateList: function (listId, listText) {
+      matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(listText)
+      Products.remove({list: listId});
+      Products.insert({list: listId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});      
+      Lists.update(listId, {description: listText});
+    }
   });
 }
