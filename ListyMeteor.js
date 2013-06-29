@@ -40,17 +40,19 @@ if (Meteor.isClient) {
   Template.list_form.listDescription = function () {
     if (!Session.get("my_list")) {
       var my_list_id = Lists.insert({description: "Default list"});
+      console.log("Can't find session, so making a session object: " + my_list_id);
+
       Session.set("my_list", my_list_id);
-      return "Default list";
-    } else {
+
+      console.log("Just made a session: " + Session.get("my_list"));
+
       list = Lists.findOne({_id: Session.get("my_list")})
-      if (list) {
-        return list.description;
-      } else {
-        console.log("can't find session " + Session.get("my_list"));
-        console.log(Lists.find({}));
-        return "";
-      }
+      return list.description;
+    } else {
+      console.log("my_list session exists: " + Session.get("my_list"));
+
+      list = Lists.findOne({_id: Session.get("my_list")})
+      return list.description;
     }
   };
 
@@ -81,7 +83,9 @@ if (Meteor.isServer) {
   });
 
   Meteor.methods({
-
+    insertList: function (session) {
+      // body...
+    },
     updateList: function (listId, listText) {
       Lists.update(listId, {description: listText});
       Products.remove({list: listId});
@@ -89,7 +93,7 @@ if (Meteor.isServer) {
       matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(listText)
       if (matches == null || matches.length < 4) { return }
 
-      Products.insert({list: listId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});      
+        Products.insert({list: listId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});      
     }
   });
 }
