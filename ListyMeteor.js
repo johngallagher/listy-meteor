@@ -22,6 +22,9 @@ if (Meteor.isClient) {
     Deps.autorun(function(){ 
       Meteor.subscribe("this_users_lists", user_id);
       console.log("did subscribe to list for user " + user_id);
+
+      Meteor.subscribe("this_users_products", user_id);
+      console.log("did subscribe to products for user " + user_id);
     });
 
     Session.set("edited_element", "");
@@ -46,7 +49,7 @@ if (Meteor.isClient) {
   Handlebars.registerHelper('editedElementIs', editedElementIs);
 
   Handlebars.registerHelper('products', function() {
-    return "";
+    return Products.find({});
   });
 
   Template.list_form.listDescription = function () {
@@ -60,9 +63,6 @@ if (Meteor.isClient) {
 
   Template.adminbar.events({
     'click a#editlist' : function () {
-      // console.log("Here's the list box: " + this.find('div'));
-      
-      // Lists.update(Session.get("user"), {description: "My stuff"});      
       toggleElement("list");
     },
     'click a#editsidebar' : function () {
@@ -72,7 +72,6 @@ if (Meteor.isClient) {
 
   Template.list_form.events({
     'keyup textarea#list1' : function (event) {
-      // console.log(event.target);
       Meteor.call('updateList', Session.get("user"), event.target.value);
     }
   })
@@ -85,6 +84,9 @@ if (Meteor.isServer) {
   Deps.autorun(function(){ 
     Meteor.publish("this_users_lists", function (user_Id) {
       return Lists.find({userId: user_Id});
+    });
+    Meteor.publish("this_users_products", function (user_Id) {
+      return Products.find({userId: user_Id});
     });
   });
 
