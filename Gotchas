@@ -1,0 +1,15 @@
+Gotchas
+
+* Meteor mongo has a paging thing that only shows the first few lines!!
+
+* Weird collection stuff - Lists refers to different collections on client and server
+* Need to insert stuff on the server, not the client - this isn't supported for some reason... need to use meteor.call
+* 
+
+    Deps.autorun(function(){ 
+      Meteor.subscribe("this_users_lists", user_id);
+    });
+
+    without the autorun function it's not going to auto change the subscription
+
+    update method needs $set to set only the fields we want to chnage otherwise it wipes out the other fields already set.
