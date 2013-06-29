@@ -16,7 +16,7 @@ if (Meteor.isClient) {
     user_id = randomString();
 
     Session.set("user", user_id);      
-    Meteor.call('insertList', user_id);
+    Meteor.call('insertDefaultList', user_id);
     console.log("did insert list for user: " + user_id);
 
     Deps.autorun(function(){ 
@@ -56,8 +56,6 @@ if (Meteor.isClient) {
     list = Lists.findOne({});
     if (!list) { return "" };
 
-    console.log("here's user " + Session.get("user") + " list: ");
-    console.log(list.text);
     return list.text;
   };
 
@@ -90,29 +88,25 @@ if (Meteor.isServer) {
     });
   });
 
-  // Meteor.publish("products", function (userId) {
-  //   return Products.find({userId: userId});
-  // });
+  Meteor.startup(function () {
+  });
 
-Meteor.startup(function () {
-});
+  Meteor.methods({
+    insertDefaultList: function (userId) {
+      defaultText = 'Default list $4 here it is';
+      Lists.insert({userId: userId, text: defaultText});
+      Products.insert({userId: userId, name: "Default list", price: parseFloat(4, 10).toFixed(2), description: ""});
+    },
+    updateList: function (userId, text) {
+      Lists.update({userId: userId}, {text: text});
+      Products.remove({userId: userId});
 
-Meteor.methods({
-  insertList: function (userId) {
-    Lists.insert({userId: userId, text: 'Default list $4 here it is'});
-  },
-  updateList: function (userId, text) {
-    Lists.update({userId: userId}, {text: text});
-    Products.remove({userId: userId});
+      matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(text)
+      if (matches == null || matches.length < 4) { 
+        return;
+      }
 
-    matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(text)
-    if (matches == null || matches.length < 4) { 
-      return 
+      Products.insert({userId: userId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});
     }
-
-    Products.insert({userId: userId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});
-  }
-});
-
-
+  });
 }
