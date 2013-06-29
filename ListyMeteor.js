@@ -99,14 +99,14 @@ if (Meteor.isServer) {
     },
     updateList: function (userId, text) {
       Lists.update({userId: userId}, {text: text});
-      Products.remove({userId: userId});
+      // Products.remove({userId: userId});
 
       matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(text)
       if (matches == null || matches.length < 4) { 
         return;
       }
 
-      Products.insert({userId: userId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});
+      Products.update({userId: userId}, {$set: {name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]}});
     }
   });
 }
