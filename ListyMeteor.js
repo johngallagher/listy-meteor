@@ -3,15 +3,10 @@ Lists = new Meteor.Collection("lists");
 
 if (Meteor.isClient) {
   Meteor.startup(function () {
-    var my_list_id = Lists.insert({description: "Default list"});
-    Session.set("my_list", my_list_id);      
-    
-    // var observed = Lists.find({_id: my_list_id}).observe({
-    //   changed: function (newDocument, oldDocument) {
-    //     Products.insert({list: newDocument._id, name: newDocument.description});
-    //   }
-    // });
-
+    if (!Session.get("my_list")) {
+      var my_list_id = Lists.insert({description: "Default list"});
+      Session.set("my_list", my_list_id);      
+    }
     Session.set("edited_element", "");
 
   });
@@ -30,14 +25,6 @@ if (Meteor.isClient) {
 
   toggleElement = function (elementName) {
     if(editedElementIs(elementName)) {
-      Meteor.call('updateList', Session.get("my_list"), $('textarea').val());
-      // Products.find({list: Session.get("my_list")}).forEach(function (product) {
-      //   Products.remove(product._id);
-      // }); 
-      // Products.insert({list: Session.get("my_list"), name: $('textarea').val()});
-
-      // Lists.update(Session.get("my_list"), {description: $('textarea').val()});
-
       setEditedElement("");
     } else {
       setEditedElement(elementName);
@@ -51,7 +38,20 @@ if (Meteor.isClient) {
   });
 
   Template.list_form.listDescription = function () {
-    return Lists.findOne({_id: Session.get("my_list")}).description;
+    if (!Session.get("my_list")) {
+      var my_list_id = Lists.insert({description: "Default list"});
+      Session.set("my_list", my_list_id);
+      return "Default list";
+    } else {
+      list = Lists.findOne({_id: Session.get("my_list")})
+      if (list) {
+        return list.description;
+      } else {
+        console.log("can't find session " + Session.get("my_list"));
+        console.log(Lists.find({}));
+        return "";
+      }
+    }
   };
 
   Template.adminbar.events({
@@ -66,6 +66,13 @@ if (Meteor.isClient) {
     }
   });
 
+  Template.list_form.events({
+    'keyup textarea#list1' : function (event) {
+      // console.log(event.target);
+      Meteor.call('updateList', Session.get("my_list"), event.target.value);
+    }
+  })
+
 
 }
 
@@ -74,11 +81,15 @@ if (Meteor.isServer) {
   });
 
   Meteor.methods({
+
     updateList: function (listId, listText) {
-      matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(listText)
-      Products.remove({list: listId});
-      Products.insert({list: listId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});      
       Lists.update(listId, {description: listText});
+      Products.remove({list: listId});
+
+      matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(listText)
+      if (matches == null || matches.length < 4) { return }
+
+      Products.insert({list: listId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]});      
     }
   });
 }
