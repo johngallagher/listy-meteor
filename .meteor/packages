@@ -6,3 +6,8 @@
 insecure
 preserve-inputs
 amplify
+accounts-ui
+accounts-github
+accounts-facebook
+accounts-google
+accounts-twitter

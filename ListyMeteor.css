@@ -898,3 +898,10 @@ margin:5px 0 0 0;
 body {
   background: #fff;
 }
+
+
+#login-buttons {
+  float: right;
+  font-size: 1.2em;
+  padding: 10px 0 10px 0;
+}
