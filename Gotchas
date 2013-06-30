@@ -4,7 +4,7 @@ Gotchas
 
 * Weird collection stuff - Lists refers to different collections on client and server
 * Need to insert stuff on the server, not the client - this isn't supported for some reason... need to use meteor.call
-* 
+
 
   Deps.autorun(function(){ 
     Meteor.subscribe("this_users_lists", user_id);
@@ -18,6 +18,6 @@ Gotchas
 
   When reload is hit, info in Session is nuked. You need to use amplify.store("") to store things in the local storage.
 
-  
+
 
     
