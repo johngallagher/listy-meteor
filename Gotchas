@@ -16,6 +16,8 @@ Gotchas
 
   no model object! Man. Look at https://github.com/tmeasday/meteor-models
 
+  When reload is hit, info in Session is nuked. You need to use amplify.store("") to store things in the local storage.
+
   
 
     
