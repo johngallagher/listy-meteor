@@ -130,39 +130,43 @@ if (Meteor.isServer) {
   Meteor.startup(function () {
   });
 
+  function toCurrency (price) {
+    return parseFloat(price, 10).toFixed(2);
+  };
+
   Meteor.methods({
     insertDefaultList: function (userId) {
       defaultText = 'Default list £4 here it is';
       Lists.insert({userId: userId, text: defaultText});
-      Products.insert({userId: userId, name: "Default list", price: parseFloat(4, 10).toFixed(2), description: "here it is"});
+      Products.insert({userId: userId, name: "Default list", price: toCurrency(4), description: "here it is"});
     },
     updateUserOfList: function (old_user_id, new_user_id) {
       Lists.update({userId: old_user_id}, {$set: {userId: new_user_id}});      
       Products.update({userId: old_user_id}, {$set: {userId: new_user_id}}, { multi: true });
     },
     updateList: function (userId, text) {
-      console.log("updating list");
       Lists.update({userId: userId}, {$set: {text: text}});
 
-      textLines = text.split("\n");
+      productLines = text.split("\n");
       products = Products.find({userId: userId}).fetch();
 
       var productCount = products.length;
       var productIndex = 0;
 
-      for (var index = 0; index < textLines.length; ++index) {
-        line = textLines[index];
-        matches = /([a-z A-Z]+) \£(\d+\.*\d*)( *([a-z A-Z!,.:-]+))*/.exec(line)
+      for (var index = 0; index < productLines.length; ++index) {
+        productLine = productLines[index]
+        productAttributes = /([a-z A-Z]+) \£(\d+\.*\d*)( *([a-z A-Z!,.:-]+))*/.exec(productLine)
 
-        if (matches && matches.length >= 5) {
+        if (productAttributes && productAttributes.length >= 5) {
+          name = productAttributes[1];
+          price = toCurrency(productAttributes[2]);
           description = "";
-
-          if (matches[4]) { description = matches[4] };
+          if (productAttributes[4]) { description = productAttributes[4] };
 
           if (products[productIndex]) {
-            Products.update({_id: products[productIndex]._id}, {$set: { name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: description }});
+            Products.update({_id: products[productIndex]._id}, {$set: { name: name, price: price, description: description }});
           } else {
-            Products.insert({userId: userId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: description });            
+            Products.insert({userId: userId, name: name, price: price, description: description });            
           }
           productIndex++;
         }
