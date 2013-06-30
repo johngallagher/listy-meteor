@@ -13,11 +13,17 @@ function randomString() {
 
 if (Meteor.isClient) {
   Meteor.startup(function () {
-    user_id = randomString();
+    user_id = amplify.store("user");
+    console.log("heres the current user id: ");
+    console.log(user_id);
 
-    Session.set("user", user_id);      
-    Meteor.call('insertDefaultList', user_id);
-    console.log("did insert list for user: " + user_id);
+    if (!user_id) {
+      user_id = randomString();
+
+      amplify.store("user", user_id);      
+      Meteor.call('insertDefaultList', user_id);
+      console.log("did insert list for user: " + user_id);
+    };
 
     Deps.autorun(function(){ 
       Meteor.subscribe("this_users_lists", user_id);
@@ -70,15 +76,12 @@ if (Meteor.isClient) {
 
   Template.list_form.events({
     'keyup textarea#list1' : function (event) {
-      Meteor.call('updateList', Session.get("user"), event.target.value);
+      Meteor.call('updateList', amplify.store("user"), event.target.value);
     }
   })
-
-
 }
 
 if (Meteor.isServer) {
-
   Deps.autorun(function(){ 
     Meteor.publish("this_users_lists", function (user_Id) {
       return Lists.find({userId: user_Id});
@@ -93,20 +96,42 @@ if (Meteor.isServer) {
 
   Meteor.methods({
     insertDefaultList: function (userId) {
-      defaultText = 'Default list $4 here it is';
+      defaultText = 'Default list £4 here it is';
       Lists.insert({userId: userId, text: defaultText});
-      Products.insert({userId: userId, name: "Default list", price: parseFloat(4, 10).toFixed(2), description: ""});
+      Products.insert({userId: userId, name: "Default list", price: parseFloat(4, 10).toFixed(2), description: "here it is"});
     },
     updateList: function (userId, text) {
-      Lists.update({userId: userId}, {text: text});
-      // Products.remove({userId: userId});
+      Lists.update({userId: userId}, {$set: {text: text}});
 
-      matches = /([a-z A-Z]+) \$(\d+\.*\d*) +?([^#\+][a-z A-Z]+)/.exec(text)
-      if (matches == null || matches.length < 4) { 
-        return;
+      textLines = text.split("\n");
+      products = Products.find({userId: userId}).fetch();
+
+      var productCount = products.length;
+      var productIndex = 0;
+      for (var index = 0; index < textLines.length; ++index) {
+        line = textLines[index];
+        matches = /([a-z A-Z]+) \£(\d+\.*\d*)( *([a-z A-Z]+))*/.exec(line)
+
+        if (matches && matches.length >= 5) {
+          description = "";
+
+          if (matches[4]) { description = matches[4] };
+
+          if (products[productIndex]) {
+            Products.update({_id: products[productIndex]._id}, {$set: { name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: description }});
+          } else {
+            Products.insert({userId: userId, name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: description });            
+          }
+          productIndex++;
+        }
       }
 
-      Products.update({userId: userId}, {$set: {name: matches[1], price: parseFloat(matches[2], 10).toFixed(2), description: matches[3]}});
+      if (productIndex > productCount) { return };
+      // Remove remaining products
+      for (var index = productIndex; index < productCount; ++index) {
+        Products.remove({_id: products[index]._id});
+      }
     }
   });
 }
+
