@@ -65,20 +65,35 @@ if (Meteor.isClient) {
     return list.text;
   };
 
+  Template.list_form.events({
+    'keyup textarea#list1' : function (event) {
+      Meteor.call('updateList', amplify.store("user"), event.target.value);
+    }
+  });
+
   Template.adminbar.events({
     'click a#editlist' : function () {
-      toggleElement("list");
+      // toggleElement("list");
     },
     'click a#editsidebar' : function () {
       toggleElement("sidebar");
     }
   });
 
-  Template.list_form.events({
-    'keyup textarea#list1' : function (event) {
-      Meteor.call('updateList', amplify.store("user"), event.target.value);
+  Template.product.expanded = function () {
+    return Session.equals("expanded", this._id) ? "expanded" : '';
+  };
+
+  Template.product.events({
+    "click .item_name": function (event) {
+      if (Session.get("expanded") == this._id) {
+        Session.set("expanded", "");
+        return;
+      } 
+
+      Session.set("expanded", this._id);
     }
-  })
+  });
 }
 
 if (Meteor.isServer) {
@@ -108,9 +123,10 @@ if (Meteor.isServer) {
 
       var productCount = products.length;
       var productIndex = 0;
+      
       for (var index = 0; index < textLines.length; ++index) {
         line = textLines[index];
-        matches = /([a-z A-Z]+) \£(\d+\.*\d*)( *([a-z A-Z]+))*/.exec(line)
+        matches = /([a-z A-Z]+) \£(\d+\.*\d*)( *([a-z A-Z!,.:-]+))*/.exec(line)
 
         if (matches && matches.length >= 5) {
           description = "";

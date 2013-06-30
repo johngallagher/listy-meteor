@@ -905,3 +905,12 @@ body {
   font-size: 1.2em;
   padding: 10px 0 10px 0;
 }
+
+.item_description {
+  display: none;
+}
+
+.item_description.expanded {
+  display: block;
+} 
+
