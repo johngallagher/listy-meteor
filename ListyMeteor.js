@@ -13,28 +13,41 @@ function randomString() {
 
 if (Meteor.isClient) {
   Meteor.startup(function () {
-    user_id = amplify.store("user");
-    console.log("heres the current user id: ");
-    console.log(user_id);
+    Deps.autorun(function(){
+      console.log("rerunning autorun");
 
-    if (!user_id) {
-      user_id = randomString();
+      // Read the users
+      user_id           = amplify.store("user");      
+      logged_in_user_id = Meteor.userId();
+      current_user_id   = user_id;
 
-      amplify.store("user", user_id);      
-      Meteor.call('insertDefaultList', user_id);
-      console.log("did insert list for user: " + user_id);
-    };
+      console.log("stored user is:");
+      console.log(user_id);
 
-    Deps.autorun(function(){ 
-      Meteor.subscribe("this_users_lists", user_id);
-      console.log("did subscribe to list for user " + user_id);
+      console.log("logged in user is:");
+      console.log(logged_in_user_id);
+      
+      never_visited         = !user_id  && !logged_in_user_id;
+      visited_logged_in     = user_id   && logged_in_user_id;
 
-      Meteor.subscribe("this_users_products", user_id);
-      console.log("did subscribe to products for user " + user_id);
+      if (never_visited) {
+        user_id = randomString();
+        amplify.store("user", user_id);
+        Meteor.call('insertDefaultList', user_id);
+
+      } else if (visited_logged_in) {
+        Meteor.call('updateUserOfList', user_id, logged_in_user_id);
+        amplify.store("user", logged_in_user_id);
+        current_user_id = logged_in_user_id;
+      }
+
+      Meteor.subscribe("this_users_lists", current_user_id);
+      Meteor.subscribe("this_users_products", current_user_id);
     });
 
     Session.set("edited_element", "");
   });
+
 
   setEditedElement = function (elementName) {
     return Session.set("edited_element", elementName);
@@ -52,13 +65,18 @@ if (Meteor.isClient) {
     }
   };
 
+  // Edited element
   Handlebars.registerHelper('editedElementIs', editedElementIs);
 
-  Handlebars.registerHelper('products', function() {
-    return Products.find({});
-  });
 
+  // List view
+  Template.list_view.products = function () {
+    return Products.find({});
+  }
+
+  // List form
   Template.list_form.listDescription = function () {
+    // Sometimes the list isn't found because it hasn't been inserted yet
     list = Lists.findOne({});
     if (!list) { return "" };
 
@@ -71,6 +89,7 @@ if (Meteor.isClient) {
     }
   });
 
+  // Admin bar
   Template.adminbar.events({
     'click a#editlist' : function () {
       // toggleElement("list");
@@ -80,12 +99,14 @@ if (Meteor.isClient) {
     }
   });
 
+  // Product
   Template.product.expanded = function () {
     return Session.equals("expanded", this._id) ? "expanded" : '';
   };
 
   Template.product.events({
     "click .item_name": function (event) {
+      // Collapse if we've clicked on the item that's currently expanded
       if (Session.get("expanded") == this._id) {
         Session.set("expanded", "");
         return;
@@ -115,7 +136,12 @@ if (Meteor.isServer) {
       Lists.insert({userId: userId, text: defaultText});
       Products.insert({userId: userId, name: "Default list", price: parseFloat(4, 10).toFixed(2), description: "here it is"});
     },
+    updateUserOfList: function (old_user_id, new_user_id) {
+      Lists.update({userId: old_user_id}, {$set: {userId: new_user_id}});      
+      Products.update({userId: old_user_id}, {$set: {userId: new_user_id}}, { multi: true });
+    },
     updateList: function (userId, text) {
+      console.log("updating list");
       Lists.update({userId: userId}, {$set: {text: text}});
 
       textLines = text.split("\n");
@@ -123,7 +149,7 @@ if (Meteor.isServer) {
 
       var productCount = products.length;
       var productIndex = 0;
-      
+
       for (var index = 0; index < textLines.length; ++index) {
         line = textLines[index];
         matches = /([a-z A-Z]+) \£(\d+\.*\d*)( *([a-z A-Z!,.:-]+))*/.exec(line)
